@@ -1,0 +1,66 @@
+{% load static %}
+
+{% load crispy_forms_tags %}
+<div>
+    <div class="row mt-4">
+        <div class="col-md-4" style="margin-left: 100px;">
+            <div class="card">
+                <div class="card-header">
+                    Make Request
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input class="btn btn-info btn-block" type="submit" value="Make Request">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card" style="margin-right: 100px;">
+                <div class="card-header">
+                    Orders Record
+                </div>
+                <div class="card-body">
+                    <table class="table bg-white">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Odered on</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in order %}
+                            {% if order.customer == user %}
+                            <tr>
+                                <td>{{ order.product.name }}</td>
+                                <td>{{ order.product.category }}</td>
+                                <td>{{ order.order_quantity }}</td>
+                                <td>{{ order.date }}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block styles %}
+<style>
+    body {
+        background-image: url("{% static 'img/bg2.webp' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        backdrop-filter: blur(5px);
+    }
+    
+</style>
+{% endblock %}
